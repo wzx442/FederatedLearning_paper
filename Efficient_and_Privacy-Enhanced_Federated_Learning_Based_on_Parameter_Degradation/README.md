@@ -99,7 +99,7 @@ Cross-Silo联邦学习：可横向纵向划分。
 
 > The relationship between these properties is shown in Fig. 1, where the ‘+’ indicates positive correlation and the ‘?’ indicates negative correlation.
 - 这些特性之间的关系如图 1 所示，其中 "+"表示正相关，"-"表示负相关。
-![图1](image\图1.png)
+![fig1](image\fig1.png)
 ### B. Contributions
 > Our algorithm adaptively adjusts the privacy budget and parameter upload rate and employs importance-weighted aggregation to achieve robust learning in scenarios involving malicious
 participants.
