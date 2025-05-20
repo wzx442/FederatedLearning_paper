@@ -49,7 +49,7 @@ Cross-device联邦学习：Cross-device FL针对的则是便携式电子设备�
 
 Cross-Silo联邦学习：Cross-silo FL面对的客户端是企业级别、机构单位级别的。
 
-3、客户端状态不同 **
+3、客户端状态不同 
 Cross-device联邦学习：无状态，每个客户可以仅会参与一次任务，因此通常假定在每轮计算中都有一个从未见过的客户的新样本。
 
 #Cross-Silo联邦学习：有状态，每个客户端都可以参与计算的每一轮，并不断携带状态。
@@ -99,7 +99,7 @@ Cross-Silo联邦学习：可横向纵向划分。
 
 > The relationship between these properties is shown in Fig. 1, where the ‘+’ indicates positive correlation and the ‘?’ indicates negative correlation.
 - 这些特性之间的关系如图 1 所示，其中 "+"表示正相关，"-"表示负相关。
-![图1](img\EPEFed\图1.png)
+![图1](image\图1.png)
 ### B. Contributions
 > Our algorithm adaptively adjusts the privacy budget and parameter upload rate and employs importance-weighted aggregation to achieve robust learning in scenarios involving malicious
 participants.
@@ -333,7 +333,7 @@ $\epsilon=(\alpha-1)\cdot\Delta_{\alpha}(M,D,D')$
 - 全局模型加权聚合由三个关键因素决定：节点数据量、参数上传率和参数可信度。
 
 > Step 1: Calculate the parameter credibility $Cied_k$ of node $k$. According to (10) we can calculate $\cos (\Delta w^{t-1}_k,\Delta w^t_k)$  and $\cos (\Delta w^t_k,\Delta w^{t-1})$  respectively, then we have
-        ![eq9](img\EPEFed\eq9.png)
+![eq9](image\eq9.png)
 
 > The similarity of vectors $A, B$ is calculated by the cosine similarity. That is
 ![eq10](image\eq10.png)
