@@ -3,9 +3,6 @@
 TSC	2024 
 链接: [https://ieeexplore.ieee.org/abstract/document/10528912](https://ieeexplore.ieee.org/abstract/document/10528912)
 ## Abstract
-> Federated Learning ensures that clients can collaboratively train a global model by uploading local gradients,keeping data locally, and preserving the security of sensitive data.
-> However, studies have shown that attackers can infer local data from gradients, raising the urgent need for gradient protection.
-> The differential privacy technique protects local gradients by adding noise. This paper proposes a federated privacy-enhancing algorithm that combines local differential privacy, parameter sparsification, and weighted aggregation for cross-silo setting.
 - 联邦学习通过上传本地梯度，保持数据在本地，保护了敏感数据的安全，确保客户可以协同训练全局模型。
 - 然而，研究表明，***攻击者可以从梯度中推断出本地数据***，因此迫切需要进行梯度保护。
 - 差分隐私技术通过添加噪声来保护局部梯度。本文提出了一种联合隐私增强算法，该算法结合了局部差分隐私、参数稀疏化和孤井互连环境下的加权聚合。
@@ -18,20 +15,14 @@ silo 的本意是地窖、竖井。cross-silo 里的silo显然不是这个意思
 所以 cross-silo 可以翻成 孤井互连，或者孤井互通等等。
 在Introduction有详细对比
 ```
-> Firstly, our method introduces $R\acute{e} nyi$ differential privacy by adding noise before uploading local parameters, achieving local differential privacy. Moreover, we dynamically adjust the privacy budget to control the amount of noise added, balancing privacy and accuracy. 
-> Secondly, considering the diversity of clients’ communication abilities, we propose a novel Top-K method with dynamically adjusted parameter upload rates to effectively reduce and properly allocate communication costs.
-> Finally, based on the data volume, trustworthiness, and upload rates of participants, we employ a weighted aggregation method, which enhance the robustness of the privacy framework.
-- 首先，本文引入了  **"$R\acute{e} nyi$ 差分隐私"** ，即在上传本地参数前添加噪声，从而实现本地差分隐私。此外，我们还通过动态调整隐私预算来控制噪声的添加量，从而在隐私和准确性之间取得平衡。
+- 首先，本文引入了  **" $R\acute{e}nyi$ 差分隐私"** ，即在上传本地参数前添加噪声，从而实现本地差分隐私。此外，我们还通过动态调整隐私预算来控制噪声的添加量，从而在隐私和准确性之间取得平衡。
 - 其次，考虑到客户端通信能力的多样性，本文提出了一种动态调整参数上传率的新型 Top-K 方法，以有效降低并合理分配通信成本。
 - 最后，根据客户端的**数据量**、**可信度**和**上传率**，本文采用了**加权聚合法**，从而增强了隐私框架的稳健性。
-> Index Terms—Federated learning, differential privacy, communication costs, credibility, aggregation.
 - 关键词：联合学习、差分隐私、通信成本、可信度、聚合。
 ## INTRODUCTION
 ### A. Background
-> Different organizations are hesitant to contribute their own data due to privacy concerns. This has resulted in data silos, which hinder effective data integration.
 - 随着大数据的发展，人工智能达到了新的高度。然而，实现高精度学习模型需要大规模和高质量的数据支持。遗憾的是，不同的组织出于对隐私的考虑，不愿贡献自己的数据。这就造成了数据孤岛，阻碍了有效的数据整合。
 - 联邦学习是一种新兴的**分布式机器学习方法**，通过保护数据隐私和所有权来解决这一问题。在联合学习中，客户端在本地训练自己的模型，并将模型参数上传到中央服务器，中央服务器汇总这些参数，更新全局模型，并将更新后的模型发回给客户端。这一过程反复进行，直到全局模型达到预定的精度或收敛条件。
-> In the realm of FL, there exist two predominant configurations: cross-device and cross-silo. In cross-device FL,participants typically comprise edge devices such as smart gadgets and laptops, which may number in the thousands or even millions. These participants are generally considered unreliable and possess limited computational capabilities. In contrast, in the cross-silo FL paradigm, the stakeholders are organizations; the number of participants is relatively limited,usually ranging between 2 and 100. Given the nature of the participants, the process is generally deemed reliable,and each entity possesses significant computational resources.Cross-silo scenarios are exceedingly common in real-world applications, such as credit card fraud detection, clinical disease prediction, 6G network and so on.
 
 - 在联邦学习领域，存在两种主要配置：跨设备和跨孤岛。在跨设备联邦学习中，客户端通常包括智能工具和笔记本电脑等边缘设备，其数量可能达到数千甚至数百万。这些客户端通常被认为是不可靠的，而且计算能力有限。
 - 相比之下，在跨孤岛联邦学习中，利益相关者是组织；客户端的数量相对有限，通常在 2 到 100 之间。鉴于客户端的性质，该过程通常被认为是可靠的，而且**每个实体都拥有大量的计算资源**。在现实世界的应用中，如信用卡欺诈检测、临床疾病预测、6G 网络等，跨孤岛场景极为常见。
@@ -77,39 +68,26 @@ Cross-Silo联邦学习：可横向纵向划分。
 
 - 在许多跨孤岛场景中，联邦学习架构被用作隐私保护方案，即服务器与客户端之间的交互仍然是原始模型参数。虽然联邦学习不需要共享本地数据，但仅从参数更新就能推断出本地节点的相关隐私信息。相关工作表明，梯度的暴露可以揭示其他诚实节点的类表示、与主要任务无关的样本中的敏感属性，甚至本地训练样本等信息。因此，有必要加强联合学习模型的隐私保护。这也是本文致力于研究的问题--跨孤岛联邦学习下的隐私增强方法。
 
-> Differential privacy (DP) achieves the privacy goal through data perturbation and introduces minimal additional computational burden, making it widely applicable in various scenarios. This paper also embraces differential privacy as a means to enhance privacy in federated learning. Differential privacy achieves privacy preservation by injecting noise into the parameters. The greater the amount of noise, the stronger the privacy, albeit at the expense of accuracy. Privacy refers to the extent to which details of the client’s local data are protected from disclosure. Accuracy refers to the degree to which the trained final model predicts accurately in the face of new samples. Consequently, balancing privacy with accuracy is a focal point in the design of differential privacy approaches.
 - 差分隐私（DP）通过数据扰动实现隐私目标，并将额外的计算负担降至最低，因此广泛适用于各种场景。本文还将差分隐私作为增强联邦学习中隐私保护的一种手段。差分隐私通过向参数中注入噪声来实现隐私保护。噪声越大，隐私性就越强，尽管会牺牲准确性。隐私是指客户本地数据的细节在多大程度上受到保护而不被泄露。准确性是指训练有素的最终模型在面对新样本时预测准确的程度。因此，平衡隐私与准确性是设计差异隐私方法的重点。
 
-> Irrespective of the privacy protection method employed, communication cost remains a pivotal challenge to address.
 - 无论采用哪种隐私保护方法，**通信开销仍然是需要解决的关键难题**。通信是指在整个训练过程中，服务器与客户端之间交互的参数数量。在每个周期中，客户端需要将其本地模型参数传送给中央服务器或其他客户端。
 - 然而，模型参数通常可以在有限的网络带宽上传输如此大量的数据可能会导致通信延迟或故障，最终降低联合学习的整体效率。
 - 此外，对于差分隐私，添加的噪声量与参数数量成正比；噪声越多，对模型准确性的影响越大。
 - 此外，每个客户端的设备、计算能力和通信能力都存在异质性，应根据实际情况进行合理的自适应调整。
 - 因此，如何自适应地实现模型精度、隐私和通信成本之间的平衡仍是一个重要课题。
 
-> Finally, the robustness of global model aggregation are key issues in privacy-enhanced federated learning.
->  In this paper, the predictable disturbance is a carefully designed noise added to achieve differential privacy.Unforeseeable disturbances are mainly attacks, such as model poisoning attacks launched by malicious attackers.
->  Against the backdrop of data distribution heterogeneity, there are variations in the quality and quantity of local data among participants.The process of aggregating noised parameters from multiple local nodes to obtain a comprehensive model representationis critical to the success of this approach. 
 - 最后，全局模型聚合的稳健性是隐私增强联合学习的关键问题。鲁棒性是指面对可预见和不可预见的干扰时，模型训练过程正常进行的能力。
 - 在**本文中，可预见的干扰是为实现差分隐私而精心设计添加的噪音。不可预见的干扰主要是攻击**，如恶意攻击者发起的模型中毒攻击。在数据分布异构的背景下，客户端之间本地数据的质量和数量也存在差异。从多个局部节点汇总噪声参数以获得综合模型表示的过程，对这种方法的成功至关重要。局部节点训练过程的有效性会极大地影响全局模型聚合的质量。有几个因素会影响本地节点训练的效果，如训练数据的质量、噪声量、上传参数的数量以及恶意攻击者等。因此，**必须全面评估局部参数的可信度，以确保聚合质量**。
 
-> The heterogeneity of client data distribution makes the local data quality of clients uneven, which will directly affect the accuracy and robustness of aggregation.
 - 客户端数据分布的异质性使得客户端的本地数据质量参差不齐，这将直接影响聚合的准确性和鲁棒性。
 - 隐私是通过添加噪声来实现的，噪声量也会影响准确性和鲁棒性。噪声的大小可以通过交互参数的数量来控制，但如果通信参数的数量太少，则会对模型的准确性和稳健性产生不利影响。总之，建立一个高效、稳健的联合隐私增强架构必须考虑隐私、准确性、通信和稳健性。
 
-> The relationship between these properties is shown in Fig. 1, where the ‘+’ indicates positive correlation and the ‘?’ indicates negative correlation.
 - 这些特性之间的关系如图 1 所示，其中 "+"表示正相关，"-"表示负相关。
 ![fig1](image\fig1.png)
 ### B. Contributions
-> Our algorithm adaptively adjusts the privacy budget and parameter upload rate and employs importance-weighted aggregation to achieve robust learning in scenarios involving malicious
-participants.
 - 为了应对这些挑战，即如何平衡隐私、准确性、通信成本和聚合鲁棒性，本文提出了一种联合隐私增强架构。本文的算法可以自适应地调整隐私预算和参数上传率，并采用重要性加权聚合，从而在涉及恶意客户端的情况下实现稳健学习。
 
-> We summarize the main contributions of this paper as follows:
-> 	- We introduce a simple yet effective dynamic privacy budget adjustment mechanism for $R\acute{e} nyi$ differential privacy. This adjustment, based on changes in global model accuracy within a given time window, directly mitigates the accuracy decline caused by added noise.
-> - Addressing the issue of communication cost, we propose an adaptive parameter upload rate adjustment method based on communication latency. This method first assesses the capabilities of participating nodes and then dynamically adjusts the parameter upload rate based on the heterogeneity of node capabilities.
-> - We propose an importance-weighted aggregation method.By evaluating the contribution of local node parameters to the global model through multiple factors and considering the credibility of parameters by integrating both localglobal and intra-local node relationships, we effectively enhance the robustness and efficiency of global model aggregation.
-- 本文引入了一种简单而有效的**动态隐私预算调整机制**，适用于 $R\acute{e} nyi$差分隐私。这种调整机制基于给定时间窗口内**全局模型精度**的变化，可直接缓解因噪声增加而导致的精度下降。
+- 本文引入了一种简单而有效的**动态隐私预算调整机制**，适用于 $R\acute{e}nyi$ 差分隐私。这种调整机制基于给定时间窗口内**全局模型精度**的变化，可直接缓解因噪声增加而导致的精度下降。
 - 针对通信成本问题，本文提出了一种**基于通信延迟**的**自适应参数上传率调整方法**。这种方法首先评估参与节点的能力，然后根据节点能力的异质性动态调整参数上传率。
 - 本文提出了一种重要性加权汇总法。通过多因素评估本地节点参数对全局模型的贡献，并综合 **本地-全局**和**本地内部节点**关系考虑参数的可信度，我们有效地提高了全局模型聚合的鲁棒性和效率。
 
@@ -140,10 +118,8 @@ participants.
 ```
 
 ## PRELIMINARY
-> In a federated learning system that leverages local differential privacy, users upload perturbed parameter values instead of the original ones, ensuring that the perturbed parameters are safeguarded against privacy inference attacks. The privacy level of differential privacy is determined by the privacy budget $\epsilon$.
-> A lower privacy budget provides a higher degree of privacy protection,but it can also lead to lower model accuracy.
 - 在数据集中存储在单一机构进行数据处理（如数据发布）的情况下，集中式差分隐私可以有效保护整个数据集的隐私。然而，在联邦学习中，数据是以分散的方式存储在多个客户端中的，通常会利用本地差分隐私来抵御对共享参数的推理攻击。谷歌、苹果和微软等知名公司已将本地差分隐私集成到其产品中。
-- 在利用局部差分隐私的联合学习系统中，用户上传扰动参数值而不是原始参数值，从而确保扰动参数免受隐私推断攻击。差分隐私的隐私级别由隐私预算$\epsilon$ 决定。
+- 在利用局部差分隐私的联合学习系统中，用户上传扰动参数值而不是原始参数值，从而确保扰动参数免受隐私推断攻击。差分隐私的隐私级别由隐私预算 $\epsilon$ 决定。
 - 隐私预算越低，隐私保护程度越高、但也可能导致模型精度降低。
 
 ```c
@@ -155,7 +131,6 @@ participants.
 
 ```
 
-> **Definition 1.** (($\epsilon, \eth$)-differential privacy, ($\epsilon, \eth$)-DP): A randomization mechanism $\mathrm{M}$ satisfies ($\epsilon, \eth$)-differential privacy ( $\epsilon > 0, \eth > 0$) when and only when for any adjacent input datasets *D* and *D′* and any possible set of output values $R_M$, there is:
 ![eq1](image\eq1.png)
 
 - 定义 1. (($\epsilon, \eth$)-差分隐私，($\epsilon, \eth$)-DP)：随机化机制 $\mathrm{M}$ 满足($\epsilon, \eth$)-差分隐私 ( $\epsilon > 0, \eth > 0$)，当且仅当对于任意相邻的输入数据集 *D* 和 *D′*，以及任意可能的输出值集 $R_M$，有Eq(1)。
@@ -178,32 +153,27 @@ $P_r[M(D)\in S]\le e^{\epsilon}\cdot P_r[M(D')\in S]+\eth$，
 - 顺序组合：如果$F_1(x)$ 满足 ($\epsilon_1, \eth_1$)-DP 条件，而 $F_2(x)$ 满足 ($\epsilon_2, \eth_2$)-DP 条件，那么机制 $G(x)=(F_1(x),F_2(x))$ 满足 ($\epsilon_1+\epsilon_2, \eth_1+\eth_2$)-DP条件。
 
 ```c
-
 #已知一个随机函数的隐私损失，那么 K 个随机函数总的隐私损失是多少呢？
 #很惊讶地发现，在每一个随机函数所加的噪声（noise）相互独立时，隐私损失是可以累加的！（（（这里的隐私损失是指Cm，在知乎文章中可见）））
-
 ```
 
-> **Parallel Composition:** If the dataset $D$ is divided into $k$ disjointed subdata blocks $x_1\cup x_2 \cup ... \cup x_k=D,F(x_1),...,F(x_k)$  satisfy ($\epsilon_1,\eth$)-DP$,...,$($\epsilon_k,\eth$)-DP respectively, then the mechanism for publishing all results $F(x_1),...,F(x_k)$ is satisfied ($max(\epsilon_1,...,\epsilon_k),\eth$)-DP.
-- 并行组合：如果数据集 D 被划分为 k 个不相连的子数据块 $x_1\cup x_2 \cup ... \cup x_k=D,F(x_1),...,F(x_k)$分别满足   ($\epsilon_1,\eth$)-DP$,...,$($\epsilon_k,\eth$)-DP，那么所有隐私损失 $F(x_1),...,F(x_k)$对比满足($max(\epsilon_1,...,\epsilon_k),\eth$)-DP。
+- 并行组合：如果数据集 $D$ 被划分为 $k$ 个不相连的子数据块 $x_1\cup x_2 \cup ... \cup x_k=D,F(x_1),...,F(x_k)$分别满足   ($\epsilon_1,\eth$)-DP$,...,$($\epsilon_k,\eth$)-DP，那么所有隐私损失 $F(x_1),...,F(x_k)$对比满足($max(\epsilon_1,...,\epsilon_k),\eth$)-DP。
+
 ```c
-
 将数据集划分为K份，每一份满足各自的随机函数，那么所有的随机函数相对比，满足max       
-
 ```
+
 > **Definition 2.** ($\ell_2$-Sensitivity): For the real-valued function $f$ acting on the dataset *D* and *D′* , the$\ell_2$ sensitivity of $s$ is expressed as
 ![eq2](image\eq2.png)
 - **定义 2**（$\ell_2$ 灵敏度）：对于作用于数据集 *D* 和 *D′* 的实值函数 $f$，$s$ 的 $\ell_2$ 灵敏度表示为Eq(2)。
 - 灵敏度是指单个数据的变化对整个数据库查询结果影响最大的程度。
-- 其中$f$就是一个简单的查询函数。
+- 其中 $f$ 就是一个简单的查询函数。
 
-> **Lemma 1.** DP for Gaussian mechanism: One way to make the mechanism satisfy differential privacy is to add noise to the results. Gaussian mechanisms help mechanisms achieve differential privacy by adding noise that satisfies a Gaussian distribution. But the Gaussian mechanism cannot satisfy ?differential privacy, it can satisfy ($\epsilon,\eth$)-differential privacy.For a random function $F(x)$, the Gaussian mechanism can be used to obtain a random function satisfying (($\epsilon,\eth$)-differential privacy $F^′ (x)$:
 ![eq3](image\eq3.png)
 - **定理 1.** 高斯机制的 DP：使机制满足差分隐私的一种方法是在结果中添加噪声。高斯机制通过添加满足高斯分布的噪声来帮助机制实现差分隐私。但高斯机制不能满足$\epsilon$-DP，它只能满足 ($\epsilon,\eth$)-DP。对于随机函数$F(x)$，可利用高斯机制获得满足 ($\epsilon,\eth$)-DP 的随机函数 $F^ ′ (x)$，如Eq(3)。
 - 其中，$\sigma^2=\frac{2s^2ln(1.25/\eth)}{\epsilon^2}$，$s$ 是 $F$ 量化的数据隐私暴露程度的灵敏度；$\mathcal{N}(\sigma^2)$ 表示高斯（正态）分布的抽样结果，其均值为 0，方差为 $\epsilon^2$。
 - 高斯机制的优点之一是，为实现隐私保护而添加的高斯噪声与其他噪声源的类型相同；此外，两个高斯分布之和仍然是高斯分布，因此隐私机制对统计分析的影响可能更容易理解和纠正。
 
-> **Definition 3.**  ($R\acute{e}nyi$ differential privacy, RDP): If for all the Neighboring dataset *D* and *D′* , the random mechanism $F$ satisfies:
 ![eq4](image\eq4.png)
 - **定义 3**（$R\acute{e}nyi$i differential privacy，RDP）：如果对于所有邻接数据集 *D* 和 *D′*，随机机制(随机函数) $F$ 满足Eq(4)。那么这个机制 $F(x)$ 满足 ($\alpha,\epsilon$)-RDP。Renyi差分隐私(RDP)的思想主要是利用Renyi 散度来衡量两个数据集分布之间的关系。
 - 传统差分隐私使用参数 ? 来度量隐私损失，而瑞丽差分隐私RDP则引入了一个参数 α 来定义不同的隐私度量。
@@ -212,11 +182,9 @@ $P_r[M(D)\in S]\le e^{\epsilon}\cdot P_r[M(D')\in S]+\eth$，
 $\epsilon=(\alpha-1)\cdot\Delta_{\alpha}(M,D,D')$
 - 其中$\Delta_{\alpha}(M,D,D')$可以认为是Eq(4)中的ln部分（实际上有些差别）。
 
-> **Sequential Composition:** If $F_1(x)$ satisfies ($\alpha,\epsilon_1$)-RDP, while $F_2(x)$ satisfies ($\alpha,\epsilon_2$)-RDP, then the Composition mechanism of $F_1(x), F_2(x)$ satisfies ($\alpha,\epsilon_1+\epsilon_2$)-RDP.
 - 顺序组合：如果 $F_1(x)$ 满足 ($\alpha,\epsilon_1$)-RDP，而 $F_2(x)$  满足  ($\alpha,\epsilon_2$)-RDP, 那么 $F_1(x), F_2(x)$ 的合成机制满足 ($\alpha,\epsilon_1+\epsilon_2$)-RDP。
 - 即$\frac{1}{\alpha -1}\ln_{}{(\frac{F_1(x)+F_2(x)}{F_1(x')+F_2(x')})^\alpha }\le \epsilon_1+\epsilon_2$
 
-> **Lemma 2.** RDP for Gaussian mechanism: Gaussian mechanism is the basic mechanism to achieve Renyi differential  privacy. For a function $f$ : $\mathcal{D} \to \mathbb{R}^k$ with sensitivity $s$, a mechanism $F$ follows ($\alpha,\epsilon$)-RDP can be constructed by
 ![eq5](image\eq5.png)
 - **定理 2.** 高斯机制的 RDP：高斯机制是实现RDP的基本机制。对于函数 $f$ ：$\mathcal{D} \to \mathbb{R}^k$，且灵敏度为 $s$，则可通过Eq(5)方法构建一个遵循 ($\alpha,\epsilon$)-RDP的机制 $F$
 
