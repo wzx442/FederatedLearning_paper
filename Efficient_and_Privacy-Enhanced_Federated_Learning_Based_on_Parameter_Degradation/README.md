@@ -83,7 +83,7 @@ Cross-Silo联邦学习：可横向纵向划分。
 - 隐私是通过添加噪声来实现的，噪声量也会影响准确性和鲁棒性。噪声的大小可以通过交互参数的数量来控制，但如果通信参数的数量太少，则会对模型的准确性和稳健性产生不利影响。总之，建立一个高效、稳健的联合隐私增强架构必须考虑隐私、准确性、通信和稳健性。
 
 - 这些特性之间的关系如图 1 所示，其中 "+"表示正相关，"-"表示负相关。
-![fig1](image\fig1.png)
+![fig1](image/fig1.png)
 ### B. Contributions
 - 为了应对这些挑战，即如何平衡隐私、准确性、通信成本和聚合鲁棒性，本文提出了一种联合隐私增强架构。本文的算法可以自适应地调整隐私预算和参数上传率，并采用重要性加权聚合，从而在涉及恶意客户端的情况下实现稳健学习。
 
@@ -129,7 +129,7 @@ Cross-Silo联邦学习：可横向纵向划分。
 隐私预算越低，最后得到的模型精度就越低，也就是添加了相对较大的噪声。    
 ```
 
-![eq1](image\eq1.png)
+![eq1](image/eq1.png)
 
 - 定义 1. (($\epsilon, \eth$)-差分隐私，($\epsilon, \eth$)-DP)：随机化机制 $\mathrm{M}$ 满足($\epsilon, \eth$)-差分隐私 ( $\epsilon > 0, \eth > 0$)，当且仅当对于任意相邻的输入数据集 *D* 和 *D′*，以及任意可能的输出值集 $R_M$，有Eq(1)。
 - 放宽的差分隐私定义 ($\epsilon, \eth$)-DP 可以理解为，该机制以最小的  1 - $\eth$  概率满足 $\epsilon$-DP 。
@@ -163,19 +163,19 @@ $P_r[M(D)\in S]\le e^{\epsilon}\cdot P_r[M(D')\in S]+\eth$，
 
 > **Definition 2.** ($\ell_2$-Sensitivity): For the real-valued function $f$ acting on the dataset *D* and *D′* , the$\ell_2$ sensitivity of $s$ is expressed as
 
-![eq2](image\eq2.png)
+![eq2](image/eq2.png)
 
 - **定义 2**（$\ell_2$ 灵敏度）：对于作用于数据集 *D* 和 *D′* 的实值函数 $f$，$s$ 的 $\ell_2$ 灵敏度表示为Eq(2)。
 - 灵敏度是指单个数据的变化对整个数据库查询结果影响最大的程度。
 - 其中 $f$ 就是一个简单的查询函数。
 
-![eq3](image\eq3.png)
+![eq3](image/eq3.png)
 
 - **定理 1.** 高斯机制的 DP：使机制满足差分隐私的一种方法是在结果中添加噪声。高斯机制通过添加满足高斯分布的噪声来帮助机制实现差分隐私。但高斯机制不能满足$\epsilon$-DP，它只能满足 ($\epsilon,\eth$)-DP。对于随机函数$F(x)$，可利用高斯机制获得满足 ($\epsilon,\eth$)-DP 的随机函数 $F^ ′ (x)$，如Eq(3)。
 - 其中，$\sigma^2=\frac{2s^2ln(1.25/\eth)}{\epsilon^2}$，$s$ 是 $F$ 量化的数据隐私暴露程度的灵敏度；$\mathcal{N}(\sigma^2)$ 表示高斯（正态）分布的抽样结果，其均值为 0，方差为 $\epsilon^2$。
 - 高斯机制的优点之一是，为实现隐私保护而添加的高斯噪声与其他噪声源的类型相同；此外，两个高斯分布之和仍然是高斯分布，因此隐私机制对统计分析的影响可能更容易理解和纠正。
 
-![eq4](image\eq4.png)
+![eq4](image/eq4.png)
 - **定义 3**（$R\acute{e}nyi$i differential privacy，RDP）：如果对于所有邻接数据集 *D* 和 *D′*，随机机制(随机函数) $F$ 满足Eq(4)。那么这个机制 $F(x)$ 满足 ($\alpha,\epsilon$)-RDP。Renyi差分隐私(RDP)的思想主要是利用Renyi 散度来衡量两个数据集分布之间的关系。
 - 传统差分隐私使用参数 ? 来度量隐私损失，而瑞丽差分隐私RDP则引入了一个参数 α 来定义不同的隐私度量。
 - RDP 在实际应用中通常与传统的 ?-差分隐私相结合。例如，可以通过将 RDP 转换为传统的 
@@ -186,7 +186,7 @@ $\epsilon=(\alpha-1)\cdot\Delta_{\alpha}(M,D,D')$
 - 顺序组合：如果 $F_1(x)$ 满足 ($\alpha,\epsilon_1$)-RDP，而 $F_2(x)$  满足  ($\alpha,\epsilon_2$)-RDP, 那么 $F_1(x), F_2(x)$ 的合成机制满足 ($\alpha,\epsilon_1+\epsilon_2$)-RDP。
 - 即$\frac{1}{\alpha -1}\ln_{}{(\frac{F_1(x)+F_2(x)}{F_1(x')+F_2(x')})^\alpha }\le \epsilon_1+\epsilon_2$
 
-![eq5](image\eq5.png)
+![eq5](image/eq5.png)
 - **定理 2.** 高斯机制的 RDP：高斯机制是实现RDP的基本机制。对于函数 $f$ ：$\mathcal{D} \to \mathbb{R}^k$，且灵敏度为 $s$，则可通过Eq(5)方法构建一个遵循 ($\alpha,\epsilon$)-RDP的机制 $F$
 
 > **Lemma 3.** From ($\alpha,\epsilon$)-RDP to ($\epsilon,\eth$)-DP: If $F(x)$ satisfies ($\alpha,\epsilon$)-RDP, then for any given $\eth>0$, $F$ satisfies ($\epsilon',\eth$)differential privacy, where $\epsilon'=\epsilon+\ln{}{\frac{1/\eth}{\alpha-1}}$. The value of $\eth$ is generally taken as $\eth\le\frac{1}{n^2}$.
@@ -229,8 +229,8 @@ $\epsilon=(\alpha-1)\cdot\Delta_{\alpha}(M,D,D')$
 
 - 整个过程如图 2 所示。算法 1 给出了本文训练方案的伪代码。
 
-![图2](image\图2.png)
-![算法1](image\算法1.png)
+![图2](image/图2.png)
+![算法1](image/算法1.png)
 
 ### B. Dynamic privacy budget adjustment
 - 动态隐私预算分配的主要目标是在模型准确性和数据隐私之间实现微妙的平衡。我们使用差分隐私来保护隐私，在参数上传到服务器之前为其添加精心设计的噪音。
@@ -240,7 +240,7 @@ $\epsilon=(\alpha-1)\cdot\Delta_{\alpha}(M,D,D')$
 - 调整原则如下：
 
 > Step 1: The change in accuracy value of the global model in time window of round $t$ and round $t$ ? 1 is $\Delta acc_{t-1}=acc_t-acc_{t-1}$. If $\Delta acc_{t-1}<0$, it means that the accuracy of the model at the end of the $t$-th training round has decreased instead of increased. In this case, the next round should add less noise, and $\epsilon_{t+1}$ should be larger. Assuming that the amount of noise is desired to be reduced by at least $c$, we can use the following formula (6):
-![eq6](image\eq6.png)
+![eq6](image/eq6.png)
  步骤 1：全局模型在第 $t$ 轮和第 $t$ - 1 轮时间窗口中的精度值变化为$\Delta acc_{t-1}=acc_t-acc_{t-1}$。如果 $\Delta acc_{t-1}<0$，则表示第 $t$ 轮训练结束时模型的准确度不升反降。在这种情况下，下一轮增加的噪声应该更少，$\epsilon_{t+1}$ 也应该更大。假设希望噪声量至少减少 $c$.
 ```c
 
@@ -260,7 +260,7 @@ $\epsilon=(\alpha-1)\cdot\Delta_{\alpha}(M,D,D')$
 那么我们在第t个时间窗口（第t+1轮训练）要增加隐私预算。
 ```
 > Step 3: If $\Delta acc_{t-1}-\Delta acc_{t-2}\ge 1,(\Delta acc_{t-1}>0)$, then it means that the accuracy of the model is improved more at the $t$-th training round, and stronger protection of privacy can also be implemented while ensuring the training is carried out properly. Then the noise should be increased in the next round, and $\epsilon_{t+1}$  should be smaller.Similarly, assuming that the amount of noise is desired to increase by at least c, we have:
-![eq7](image\eq7.png)
+![eq7](image/eq7.png)
 - 步骤 3：如果 $\Delta acc_{t-1}-\Delta acc_{t-2}\ge l,(\Delta acc_{t-1}>0)$，则说明在第 t 轮训练中，模型的准确性得到了更大的提高，在确保训练正常进行的同时，也可以对隐私进行更有力的保护。那么在下一轮训练中，噪声应该增大，$\epsilon_{t+1}$ 应该减小。同样，假设希望噪声量至少增加 c
 - 》》》**至少减少c，不是应该$\epsilon_{t+1}\le\epsilon_{t}-c$吗？**《《《
 > Step 4: In the remaining cases, $\epsilon_{t+1}$ is the average of the remaining privacy budget, i.e. $\epsilon_{t+1}=\frac{\epsilon- {\textstyle \sum_{i}^{t}}\epsilon_i}{T-t}$.
@@ -281,7 +281,7 @@ $\epsilon=(\alpha-1)\cdot\Delta_{\alpha}(M,D,D')$
 > - Step 1: Set the initial parameter upload rate $p_0$.
 > - Step 2: The server records the parameter upload time for each participant $k$ in the past $r$ rounds separately,${d^{t-r}_k,...,d^t_k}$. Then the average upload duration is $\overline{d_k}=\frac{ {\textstyle \sum_{j}^{r}}d^j_k}{r}$ .
 > - Step 3:
-![eq8](image\eq8.png)
+![eq8](image/eq8.png)
 
 > - Step 4: The $p^{t+1}_k \times n$ largest parameters need to be selected for upload, where $n$ is the total number of model parameters.
 - 一般认为，时间延迟低的本地节点具有较好的通信和计算能力，而时间延迟高的本地节点则能力较低。具体流程如下：
@@ -304,20 +304,20 @@ $\epsilon=(\alpha-1)\cdot\Delta_{\alpha}(M,D,D')$
 - 全局模型加权聚合由三个关键因素决定：节点数据量、参数上传率和参数可信度。
 
 > Step 1: Calculate the parameter credibility $Cied_k$ of node $k$. According to (10) we can calculate $\cos (\Delta w^{t-1}_k,\Delta w^t_k)$  and $\cos (\Delta w^t_k,\Delta w^{t-1})$  respectively, then we have
-![eq9](image\eq9.png)
+![eq9](image/eq9.png)
 
 > The similarity of vectors $A, B$ is calculated by the cosine similarity. That is
-![eq10](image\eq10.png)
+![eq10](image/eq10.png)
 
 > As we aim to measure the similarity in direction between the two parameter vectors, we
 consider the case of low similarity as the opposite direction.
-![eq11](image\eq11.png)
+![eq11](image/eq11.png)
 
 Step 2: Calculate the importance score $Imp^t_k$ based on the amount of data, the parameter upload rate and parameter credibility of node $k$:
-![eq12](image\eq12.png)
+![eq12](image/eq12.png)
 
 Step 3: Global parameter weighted aggregation:
-![eq13](image\eq13.png)
+![eq13](image/eq13.png)
 
 - 步骤 1：计算节点 $k$ 的参数可信度 $Cied_k$。根据 (10)，我们可以分别计算 $\cos (\Delta w^{t-1}_k,\Delta w^t_k)$和 $\cos (\Delta w^t_k,\Delta w^{t-1})$, 对于公式9，其中 0 < $\beta$ < 1。
 	- 	数据量较大的节点通常对全局模型的影响更大，因此，它们在每一轮上传的局部权重可能与上一轮的全局权重更相似。因此，本文为这些节点设置较高的权重值$(1-\beta)$。
@@ -333,17 +333,17 @@ Step 3: Global parameter weighted aggregation:
 - 假设总隐私预算为$\epsilon$，总训练轮数为$T$，每轮隐私预算为$\epsilon_t$。对于给定的隐私预算，瑞丽差分隐私(RDP)可以选择合适的参数$\alpha$，使RDP到差分隐私(DP)的转换最小化隐私预算。因此，在每一轮中，不同的客户端$k$满足($\alpha^k_t, \epsilon_t$)-RDP。根据引理3，它可以转换成DP为($\epsilon'_t,\eth$)-DP。鉴于DP的平行组合特性，每一轮都满足($max(\epsilon'_t),\eth$)-DP。根据DP的顺序组成性质，经过$T$轮后，满足(${\textstyle \sum_{t=1}^{T}}max(\epsilon'_t),T\eth$)-DP，其中，$\epsilon'_t=\epsilon_t+\frac{ln(1/\eth)}{\alpha^k_t-1}$。
 
 > Since $\alpha^k_t\in[2,100]$, when $\alpha^k_t=2,\epsilon'_t$ attains its maximum value, which is $\epsilon_t+ln(1/\eth)$, leading to
-![eq14](image\eq14.png)
+![eq14](image/eq14.png)
 
 - 由于$\alpha^k_t\in[2,100]$，当$\alpha^k_t=2$时，$,\epsilon'_t$达到最大值$\epsilon_t+ln(1/\eth)$，产生公式14.
 
 > When $\alpha^k_t=100,\epsilon'_t$ attains its minimum value, which is $\epsilon_t+\frac{ln(1/\eth)}{99}$ , leading to
-> ![eq15](image\eq15.png)
+> ![eq15](image/eq15.png)
 
 - 当$\alpha^k_t=100$时，$\epsilon'_t$达到最小值$\epsilon_t+\frac{ln(1/\eth)}{99}$，得到公式15.
 
 > Let $Tln(1/\eth)=\mu$, then there is
-![eq16](image\eq16.png)
+![eq16](image/eq16.png)
 
 ## 论文实验 
 
