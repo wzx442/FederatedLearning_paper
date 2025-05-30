@@ -1,4 +1,5 @@
 ## 论文来源
+![title](image/title.png)
 | 名称  | [Unlearning through knowledge overwriting: Reversible federated unlearning via selective sparse adapter](https://cvpr.thecvf.com/virtual/2025/poster/35107) |
 | --- | ------------------------------------------------------------------ |
 | 期刊  | [CVPR 2025](https://cvpr.thecvf.com/virtual/2025/poster/35107)       |
