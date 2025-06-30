@@ -90,9 +90,7 @@ $$
 
 #### Unlearning Sample for Multiple Clients
 对于多客户端遗忘样本情景，多个客户端 $C$ 协同学习 $W^a$，旨在优化：
-$$
-W^a = \sideset{}{}{argmin}_W \sum_{k \in C} \sum_{(x_{k,i}, y_{k,i}) \in D_k^{\prime}} \frac{\ell(F_{E,W}(x_{k,i}),y_{k,i})  }{\sum_{k \in C} n_k}
-$$
+![](image/eq9.png)
 
 
 ### Unlearning a Client in FL
